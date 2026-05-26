@@ -11,12 +11,26 @@ Candidates must develop a single, regime-agnostic Python strategy class. The cla
 
 The baseline model provided in this repository utilizes a multi-factor rolling Ordinary Least Squares (OLS) regression matrix to isolate sector beta. Your objective is to optimize this framework, or engineer a superior asset-pricing pipeline, to maximize downstream risk-adjusted performance. Your model will be developed on three historical training sectors and deployed blindly by our validation engine to a **completely hidden, out-of-sample sector** over a 10-year historical testing window.
 
+### Baseline Model Workflow
+```mermaid
+flowchart TD
+	A[Load adjusted close data<br/>and shared utilities] --> B[Define ETF factor panel<br/>and target asset universe]
+	B --> C[Build daily factor returns<br/>and target asset returns]
+	C --> D[Estimate rolling OLS betas<br/>over the lookback window]
+	D --> E[Aggregate asset betas into<br/>a portfolio factor exposure vector]
+	E --> F[Sweep beta-reduction values<br/>from 0.0 to 1.0]
+	F --> G[Construct equal-weight long asset sleeve<br/>plus ETF hedge weights every hold window]
+	G --> H[Run portfolio simulation with<br/>transaction cost assumptions]
+	H --> I[Score diagnostics on seen sectors<br/>and select the hedge level]
+	I --> J[Apply selected hedge setting to the<br/>hidden sector and compare outcomes]
+```
+
 ---
 
 ## 2. Sector Universe & Data Parameters
 Historical data is programmatically fetched via `yfinance` spanning a **10-year historical horizon** at a **Daily frequency (`interval="1d"`)**. 
 
-> ⚠️ **Critical Infrastructure Rule:** To account for corporate actions, split events, and heavy dividend yield payouts across banking and energy sectors, your portfolio simulation and signal generation **must** calculate Net Asset Value (NAV) using the **`Adj Close`** pricing matrix.
+> ⚠️ **Important:** To account for corporate actions, split events, and heavy dividend yield payouts across banking and energy sectors, your portfolio simulation and signal generation **must** calculate Net Asset Value (NAV) using the **`Adj Close`** pricing matrix.
 
 | Target Industry Block | Eligible Equity Universe (Long-Only Candidates) | Mandatory Benchmark ETF (Short Vehicle) |
 | :--- | :--- | :--- |
@@ -67,7 +81,7 @@ $$S_E = \text{Sortino} \times \left(1 - \frac{\text{95th Percentile Gross Levera
 ---
 
 ## 5. Guidance Note for Advanced Candidates
-The baseline pipeline provided in `4_hedgemodel.ipynb` uses standard rolling OLS (`np.linalg.lstsq`) to isolate sector beta. While functional, OLS is highly vulnerable to noise and multicollinearity during macro shocks. 
+The baseline pipeline provided in `2_model.ipynb` uses standard rolling OLS (`np.linalg.lstsq`) to isolate sector beta. While functional, OLS is highly vulnerable to noise and multicollinearity during macro shocks. 
 
 To secure a top position on the Sortino Capital Leaderboard, advanced candidates should explore:
 1. **Regularized and State-Space Estimators:** Implementing Ridge/Lasso constraints, robust M-estimators, or rolling Kalman Filters to generate cleaner, less volatile tracking Betas.
