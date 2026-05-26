@@ -28,21 +28,21 @@ Historical data is programmatically fetched via `yfinance` spanning a **10-year 
 ## 3. Structural Portfolio Mandates & Guardrails
 These rules are continuous structural constraints evaluated on daily bars. Breaches at any single row index checkpoint will trigger automated validation failure and immediate strategy disqualification.
 
-* **Revolving Capital Minimum (Active Deployment):** Your portfolio must maintain a minimum average Gross Exposure ($\frac{\text{Long Exposure} + |\text{Short Exposure}|}{\text{NAV}}$) at or above **50% of NAV** across the full evaluation timeline. Strategies cannot retreat to cash to lock in or freeze a lucky yield spike.
+* **Revolving Capital Minimum (Active Deployment):** Your portfolio must maintain a minimum average Gross Exposure ($`\frac{\text{Long Exposure} + |\text{Short Exposure}|}{\text{NAV}}`$) at or above **50% of NAV** across the full evaluation timeline. Strategies cannot retreat to cash to lock in or freeze a lucky yield spike.
 * **The No-Idling Position Rule:** To prevent placing microscopic "token" trades to manipulate transaction metrics, any newly initialized stock/ETF pair basket must allocate a **minimum of 5% and a maximum of 25% of current NAV** at the exact timestamp of entry.
-* **Minimum Holding Window:** Once a stock/ETF pair structure is initialized, both positions are locked and cannot be modified or liquidated until **day $T+5$** (5 consecutive trading days later).
+* **Minimum Holding Window:** Once a stock/ETF pair structure is initialized, both positions are locked and cannot be modified or liquidated until **day $`T+5`$** (5 consecutive trading days later).
 * **Forced Terminal Settlement:** Your script must completely purge its order books and flatten all open asset inventories back to cash (USD) on the final day bar of the competition window. **Zero open exposure or trailing inventory is allowed at terminal close.**
 * **Leverage Ceiling:** Absolute gross portfolio leverage may **never exceed 20:1** on any daily checkpoint.
 
 ---
 
 ## 4. Evaluation Framework & Multi-Objective Scoring
-The evaluation suite runs your unaltered script across the data environments to calculate daily log returns ($r_t = \ln(\text{NAV}_t / \text{NAV}_{t-1})$), inclusive of execution friction, short borrow costs, and position slippage penalties. Your **Global Performance Score ($S_{\text{Global}}$)** is compiled via three core pillars:
+The evaluation suite runs your unaltered script across the data environments to calculate daily log returns ($`r_t = \ln(\text{NAV}_t / \text{NAV}_{t-1})`$), inclusive of execution friction, short borrow costs, and position slippage penalties. Your **Global Performance Score ($`S_{\text{Global}}`$)** is compiled via three core pillars:
 
 $$S_{\text{Global}} = 0.50 \cdot S_R + 0.30 \cdot S_{\text{Gen}} + 0.20 \cdot S_E$$
 
 ### Pillar 1: Asymmetric Risk-Adjusted Return (50% Weight)
-Rewards strategies that optimize the annualized Sortino Ratio while minimizing Maximum Drawdown ($\text{MDD}$) across all sectors combined. The Minimum Acceptable Return ($\text{MAR}$) is standardized to 0.
+Rewards strategies that optimize the annualized Sortino Ratio while minimizing Maximum Drawdown ($`\text{MDD}`$) across all sectors combined. The Minimum Acceptable Return ($`\text{MAR}`$) is standardized to 0.
 
 $$\text{Sortino Ratio} = \frac{R_p}{\sigma_d}$$
 
