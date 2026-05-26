@@ -37,9 +37,9 @@ These rules are continuous structural constraints evaluated on daily bars. Breac
 ---
 
 ## 4. Evaluation Framework & Multi-Objective Scoring
-The evaluation suite runs your unaltered script across the data environments to calculate daily log returns ($r_t = \ln(\text{NAV}_t / \text{NAV}_{t-1})$), inclusive of execution friction, short borrow costs, and position slippage penalties. Your **Global Performance Score ($S_G$)** is compiled via three core pillars:
+The evaluation suite runs your unaltered script across the data environments to calculate daily log returns ($r_t = \ln(\text{NAV}_t / \text{NAV}_{t-1})$), inclusive of execution friction, short borrow costs, and position slippage penalties. Your **Global Performance Score ($S_{\text{Global}}$)** is compiled via three core pillars:
 
-$$S_G = 0.50 \cdot S_R + 0.30 \cdot S_G + 0.20 \cdot S_E$$
+$$S_{\text{Global}} = 0.50 \cdot S_R + 0.30 \cdot S_{\text{Gen}} + 0.20 \cdot S_E$$
 
 ### Pillar 1: Asymmetric Risk-Adjusted Return (50% Weight)
 Rewards strategies that optimize the annualized Sortino Ratio while minimizing Maximum Drawdown ($\text{MDD}$) across all sectors combined. The Minimum Acceptable Return ($\text{MAR}$) is standardized to 0.
@@ -55,7 +55,7 @@ $$S_R = \text{Sortino} \times (1 - \text{MDD})$$
 ### Pillar 2: Structural Generalization Index (30% Weight)
 Measures the performance degradation ratio when your model is forced to trade an asset class it has never encountered during training. 
 
-$$S_G = \frac{\text{Sortino}_{\text{Unseen (XLV)}}}{\text{Sortino}_{\text{Seen (SOXX, XLF, XLE)}}}$$
+$$S_{\text{Gen}} = \frac{\text{Sortino}_{\text{Unseen (XLV)}}}{\text{Sortino}_{\text{Seen (SOXX, XLF, XLE)}}}$$
 
 ### Pillar 3: Capital & Leverage Efficiency (20% Weight)
 Rewards strategies that generate superior risk-adjusted alpha using capital efficiency rather than brute-force margin amplification. Instead of taking an easily manipulated average, the suite monitors peak leverage stress using the 95th percentile checkpoint.
