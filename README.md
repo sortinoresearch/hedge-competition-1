@@ -37,7 +37,7 @@ These rules are continuous structural constraints evaluated on daily bars. Breac
 ---
 
 ## 4. Evaluation Framework & Multi-Objective Scoring
-The evaluation suite runs your unaltered script across the data environments to calculate daily log returns $$r_t = \ln(\text{NAV}_t / \text{NAV}_{t-1})$$, inclusive of execution friction, short borrow costs, and position slippage penalties. Your **Global Performance Score ($S_{\text{Global}}$)** is compiled via three core pillars:
+The evaluation suite runs your unaltered script across the data environments to calculate daily log returns ($r_t = \ln(\text{NAV}_t / \text{NAV}_{t-1})$), inclusive of execution friction, short borrow costs, and position slippage penalties. Your **Global Performance Score ($S_{\text{Global}}$)** is compiled via three core pillars:
 
 $$S_{\text{Global}} = 0.50 \cdot S_R + 0.30 \cdot S_{\text{Gen}} + 0.20 \cdot S_E$$
 
