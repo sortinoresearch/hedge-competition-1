@@ -13,16 +13,24 @@ The baseline model provided in this repository utilizes a multi-factor rolling O
 
 ### Baseline Model Workflow
 ```mermaid
-flowchart TD
-	A[Load adjusted close data<br/>and shared utilities] --> B[Define ETF factor panel<br/>and target asset universe]
-	B --> C[Build daily factor returns<br/>and target asset returns]
-	C --> D[Estimate rolling OLS betas<br/>over the lookback window]
-	D --> E[Aggregate asset betas into<br/>a portfolio factor exposure vector]
-	E --> F[Sweep beta-reduction values<br/>from 0.0 to 1.0]
-	F --> G[Construct equal-weight long asset sleeve<br/>plus ETF hedge weights every hold window]
-	G --> H[Run portfolio simulation with<br/>transaction cost assumptions]
-	H --> I[Score diagnostics on seen sectors<br/>and select the hedge level]
-	I --> J[Apply selected hedge setting to the<br/>hidden sector and compare outcomes]
+flowchart TB
+	subgraph Row1[ ]
+		direction LR
+		A[Load adjusted close data<br/>and shared utilities] --> B[Define ETF factor panel<br/>and target asset universe]
+		B --> C[Build daily factor returns<br/>and target asset returns]
+		C --> D[Estimate rolling OLS betas<br/>over the lookback window]
+		D --> E[Aggregate asset betas into<br/>a portfolio factor exposure vector]
+	end
+
+	subgraph Row2[ ]
+		direction LR
+		F[Sweep beta-reduction values<br/>from 0.0 to 1.0] --> G[Construct equal-weight long asset sleeve<br/>plus ETF hedge weights every hold window]
+		G --> H[Run portfolio simulation with<br/>transaction cost assumptions]
+		H --> I[Score diagnostics on seen sectors<br/>and select the hedge level]
+		I --> J[Apply selected hedge setting to the<br/>hidden sector and compare outcomes]
+	end
+
+	E --> F
 ```
 
 ---
