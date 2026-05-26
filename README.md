@@ -14,6 +14,19 @@ This competition challenges quantitative analysts/engineers to develop an instit
 
 ---
 
+## Competition Format
+The competition has two stages:
+1. **Code Submission:** Participants submit their strategy through the required repository-based submission process described below.
+2. **Finalist Presentation:** The top 2 candidates will be invited to present their approach virtually in a live session.
+
+Eligibility requirement:
+Participants must reside outside the United States.
+
+Team format:
+Participants may compete individually or in teams of up to 2 members.
+
+---
+
 ## 1. Core Objective & Architecture
 Candidates must develop a single, regime-agnostic Python strategy class. The class must dynamically accept any arbitrary sector ETF along with its underlying stock universe, initialize capital configurations on the fly, and execute intra-sector long/short hedging portfolios. 
 
@@ -60,39 +73,53 @@ Historical data is programmatically fetched via `yfinance` spanning a **10-year 
 ## 3. Structural Portfolio Mandates & Guardrails
 These rules are continuous structural constraints evaluated on daily bars. Breaches at any single row index checkpoint will trigger automated validation failure and immediate strategy disqualification.
 
-* **Revolving Capital Minimum (Active Deployment):** Your portfolio must maintain a minimum average Gross Exposure ($`\frac{\text{Long Exposure} + |\text{Short Exposure}|}{\text{NAV}}`$) at or above **50% of NAV** across the full evaluation timeline. Strategies cannot retreat to cash to lock in or freeze a lucky yield spike.
+* **Revolving Capital Minimum (Active Deployment):** Your portfolio must maintain a minimum average Gross Exposure ($`\frac{\text{Long Exposure} + |\text{Short Exposure}|}{\text{NAV}}`$) at or above **50% of NAV** across the full evaluation timeline. Here, **Long Exposure** is the total dollar value of all long positions, **Short Exposure** is the total dollar value of all short positions, $`|\text{Short Exposure}|`$ uses the absolute value so the short book is counted as positive size, and **NAV** is the portfolio Net Asset Value. Strategies cannot retreat to cash to lock in or freeze a lucky yield spike.
 * **The No-Idling Position Rule:** To prevent placing microscopic "token" trades to manipulate transaction metrics, any newly initialized stock/ETF pair basket must allocate a **minimum of 5% and a maximum of 25% of current NAV** at the exact timestamp of entry.
-* **Minimum Holding Window:** Once a stock/ETF pair structure is initialized, both positions are locked and cannot be modified or liquidated until **day $`T+5`$** (5 consecutive trading days later).
+* **Minimum Holding Window:** Once a stock/ETF pair structure is initialized, both positions are locked and cannot be modified or liquidated until **day $`T+5`$** (5 consecutive trading days later), where $`T`$ is the trade entry day.
 * **Forced Terminal Settlement:** Your script must completely purge its order books and flatten all open asset inventories back to cash (USD) on the final day bar of the competition window. **Zero open exposure or trailing inventory is allowed at terminal close.**
 * **Leverage Ceiling:** Absolute gross portfolio leverage may **never exceed 20:1** on any daily checkpoint.
 
 ---
 
 ## 4. Evaluation Framework & Multi-Objective Scoring
-The evaluation suite runs your unaltered script across the data environments to calculate daily log returns ($`r_t = \ln(\text{NAV}_t / \text{NAV}_{t-1})`$), inclusive of execution friction, short borrow costs, and position slippage penalties. Your **Global Performance Score ($`S_{\text{Global}}`$)** is compiled via three core pillars:
+The evaluation suite runs your unaltered script across the data environments to calculate daily log returns ($`r_t = \ln(\text{NAV}_t / \text{NAV}_{t-1})`$), inclusive of execution friction, short borrow costs, and position slippage penalties. In this notation, $`r_t`$ is the log return on day $`t`$, $`\text{NAV}_t`$ is portfolio Net Asset Value on day $`t`$, $`\text{NAV}_{t-1}`$ is the prior day's Net Asset Value, and $`\ln`$ is the natural logarithm. Your **Global Performance Score ($`S_{\text{Global}}`$)** is compiled via three core pillars:
 
 $$S_{\text{Global}} = 0.50 \cdot S_R + 0.30 \cdot S_{\text{Gen}} + 0.20 \cdot S_E$$
 
+Here, $`S_{\text{Global}}`$ is the final overall score, $`S_R`$ is the asymmetric risk-adjusted return score, $`S_{\text{Gen}}`$ is the structural generalization score, and $`S_E`$ is the capital-efficiency score.
+
 ### Pillar 1: Asymmetric Risk-Adjusted Return (50% Weight)
-Rewards strategies that optimize the annualized Sortino Ratio while minimizing Maximum Drawdown ($`\text{MDD}`$) across all sectors combined. The Minimum Acceptable Return ($`\text{MAR}`$) is standardized to 0.
+Rewards strategies that optimize the annualized Sortino Ratio while minimizing Maximum Drawdown ($`\text{MDD}`$) across all sectors combined. The Minimum Acceptable Return ($`\text{MAR}`$) is standardized to 0. Here, **MDD** is the largest peak-to-trough decline in NAV over the evaluation window, and **MAR** is the return threshold below which returns count as downside risk.
 
 $$\text{Sortino Ratio} = \frac{R_p}{\sigma_d}$$
 
+In this equation, $`R_p`$ is the portfolio's annualized return and $`\sigma_d`$ is the annualized downside deviation.
+
 $$R_p = \left( \prod_{t=1}^{N} (1 + r_t) \right)^{\frac{252}{N}} - 1$$
+
+Here, $`N`$ is the total number of observed trading days, $`r_t`$ is the daily log return at time $`t`$, and 252 is the standard approximation for the number of trading days in one year.
 
 $$\sigma_d = \sqrt{\frac{252}{N} \sum_{t=1}^{N} \min(0, r_t)^2}$$
 
+In this expression, $`\sigma_d`$ measures only downside volatility, and $`\min(0, r_t)`$ keeps negative returns while replacing positive returns with zero so only harmful deviations are penalized.
+
 $$S_R = \text{Sortino} \times (1 - \text{MDD})$$
+
+Here, $`S_R`$ is the risk-adjusted return pillar score, **Sortino** is the Sortino Ratio defined above, and **MDD** is expressed as a decimal drawdown fraction.
 
 ### Pillar 2: Structural Generalization Index (30% Weight)
 Measures the performance degradation ratio when your model is forced to trade an asset class it has never encountered during training. 
 
 $$S_{\text{Gen}} = \frac{\text{Sortino}_{\text{Unseen (XLV)}}}{\text{Sortino}_{\text{Seen (SOXX, XLF, XLE)}}}$$
 
+Here, $`S_{\text{Gen}}`$ compares the Sortino Ratio achieved on the hidden out-of-sample healthcare sector ETF universe (**XLV**) with the Sortino Ratio achieved on the seen training-sector ETF universes (**SOXX**, **XLF**, and **XLE**). A value near 1 indicates similar performance on unseen and seen sectors, while a lower value indicates weaker generalization.
+
 ### Pillar 3: Capital & Leverage Efficiency (20% Weight)
 Rewards strategies that generate superior risk-adjusted alpha using capital efficiency rather than brute-force margin amplification. Instead of taking an easily manipulated average, the suite monitors peak leverage stress using the 95th percentile checkpoint.
 
 $$S_E = \text{Sortino} \times \left(1 - \frac{\text{95th Percentile Gross Leverage Used}}{20}\right)$$
+
+Here, $`S_E`$ is the capital-efficiency pillar score, **Sortino** is the Sortino Ratio, **95th Percentile Gross Leverage Used** is the leverage level exceeded on only 5% of checkpoints, and 20 is the maximum permitted gross leverage from the challenge's **20:1** leverage ceiling.
 
 ---
 
@@ -107,4 +134,19 @@ To secure a top position on the Sortino Capital Leaderboard, advanced candidates
 ---
 
 ## 6. Script Submission Protocol
-Your submission must be packaged as a single object-oriented Python file adhering to the validation harness template. Your code must dynamically handle the initialization parameters passed by the validator without manual hardcoding or sector-specific parameter routing. Ensure your script handles edge-case regime shifts internally to avoid runtime execution errors on the hidden data pipeline.
+Submit a **public GitHub repository link** plus the exact **commit hash, tag, or release** to evaluate.
+
+Your repository should make it easy for the evaluator to change the hidden sector and rerun the full workflow without modifying your code.
+
+Include the following:
+1. One production strategy file for evaluation.
+2. A short README that says exactly which file to run and how to install dependencies.
+3. A dependency file such as `requirements.txt` or `pyproject.toml`.
+4. Any research notebooks you want to share. These notebooks must be well commented and explain the reasoning behind the research steps, modeling choices, and conclusions.
+
+Evaluation rules:
+1. The evaluator must be able to identify the submission file immediately.
+2. The code must run after normal environment setup, without manual fixes or special instructions.
+3. The code must use the same data-loading method and input structure as the competition pipeline, so the evaluator can swap the hidden sector and rerun everything unchanged.
+4. The repository must remain public during the review period.
+5. Notebooks are supporting material only. Evaluation is based on the designated production strategy file.
