@@ -1,4 +1,10 @@
-# Sortino Capital Sector Alpha Hedging Challenge
+# Sortino Capital
+
+Sortino Capital delivers quantitative financial research and intelligence on a global scale to individual private capital, wealth managers, and family offices. We provide both the all-weather investment signals and the systematic financial technologies required to modernize portfolio construction, risk management, and investor relations. 
+
+You can follow us at https://sortino.capital/
+
+# Alpha Hedging Challenge
 
 This competition challenges quantitative analysts/engineers to develop an institutional-grade, sector-neutral systematic strategy. Rather than rewarding unhedged leverage, factor betting, or parameter curve-fitting, this framework enforces strict capital velocity, risk limits, and structural generalization across an entirely unseen economic sector.
 
