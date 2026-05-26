@@ -20,6 +20,12 @@ The competition is structured in two stages:
 * **Team Size:** Participants may compete individually or in teams of up to 2 members.
 * **Residency:** At least one team member **must reside in Panama**. This is a strict requirement to facilitate the transfer of prize funds to the winning team.
 
+**Prizes:**
+1. **1st Prize:** USD 1,000
+2. **2nd Prize:** USD 750
+3. **Internship Opportunity:** A 4-month paid remote research internship at Sortino Research
+4. **Publication Feature:** A featured article covering the winning solution
+
 *Disclaimer: The model in this repository is only a sample workflow and includes important simplifications that materially affect the results, especially with respect to transaction costs and other modeling assumptions.*
 
 ---
