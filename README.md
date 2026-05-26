@@ -1,3 +1,5 @@
+![Sortino Capital Main Image](competition/imgs/main.png)
+
 # Sortino Capital
 
 Sortino Capital delivers quantitative financial research and intelligence on a global scale to individual private capital, wealth managers, and family offices. We provide both the all-weather investment signals and the systematic financial technologies required to modernize portfolio construction, risk management, and investor relations. 
