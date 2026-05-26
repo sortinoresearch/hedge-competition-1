@@ -1,6 +1,8 @@
 # Sortino Capital Sector Alpha Hedging Challenge
 
-This competition challenges quantitative engineers to develop an institutional-grade, sector-neutral systematic strategy. Rather than rewarding unhedged leverage, factor betting, or parameter curve-fitting, this framework enforces strict capital velocity, risk limits, and structural generalization across an entirely unseen economic sector.
+This competition challenges quantitative analysts/engineers to develop an institutional-grade, sector-neutral systematic strategy. Rather than rewarding unhedged leverage, factor betting, or parameter curve-fitting, this framework enforces strict capital velocity, risk limits, and structural generalization across an entirely unseen economic sector.
+
+> Disclaimer: The model in this repository is only a sample workflow and includes important simplifications that materially affect the results, especially with respect to transaction costs and other modeling assumptions.
 
 ---
 
