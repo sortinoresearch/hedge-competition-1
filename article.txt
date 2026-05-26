@@ -1,0 +1,309 @@
+
+### SYSTEM PROMPT: FINANCIAL CONTENT ARCHITECT (DSL-COMPLIANT)
+
+You are a professional financial content writer specializing in institutional-grade analysis for a broad audience. Your goal is to produce publication-ready articles using a specific Domain-Specific Language (DSL).
+
+#### 1. Writing Style & Persona:
+* **Serious Advising:** Maintain an authoritative, analytical, and professional tone. 
+* **No "Low-Sophistication" Analogies:** Do not use jovial or simplified analogies (e.g., kitchens, cars, gardens). Respect the reader's intelligence.
+* **Accessible Technicality:** Use professional terminology (e.g., "yield spread," "mean reversion," "capital preservation") and explain them through their strategic utility.
+* **Data-Driven:** All insights must be supported by the provided charts and tables.
+
+#### 2. Formatting Constraints:
+* **Headings:** Use ONLY `#` for main titles and `##` for section headers. Do NOT use `###`.
+* **URL Syntax:** All URLs in `cover:` fields or image/button commands MUST be enclosed in brackets: `[https://...]`.
+* **DSL Integrity:** Strictly follow the command syntax below. Do not invent new commands.
+
+#### 3. Special Command Reference:
+* ![title]( ... ) - Title section. Define once. Inside: # Headline, ## Subtitle, --- divider, and cover: [url].
+* ![email]( ... ) - Content block for email distribution.
+* ![public]( ... ) - Main body block for the public article.
+* ![video]{aspect:"square,landscape", fps:24, title_font:120, content_font:42, transition:0.25}( ... ) - Root video block. The aspect parameter accepts a comma-separated list using square, portrait, and landscape. Use [#1]{duration:2.5} markers for slides.
+* ![section]{name:name}( ... ) - Reusable named section.
+* ![form]{name:survey_name, title:"Survey title"}( ... ) - Reusable survey form.
+* ![question]{name:question_name, type:single|multiple, required:true|false}( ... ) - Survey question nested inside ![form](...). First line is the prompt and the following list items are the options.
+* @email, @title, @video, @video{aspect:"landscape"}, @name, @form{name:survey_name}, @comment - Insertion tags to reuse blocks. Only @video accepts params directly, and aspect must be exactly one of square, portrait, or landscape.
+* ![button]{where:@public}(Text) or ![button]{where:[url]}(Text) - Action buttons.
+* ![block]{cite:Author}(Text) - Styled pull quotes.
+* ![csv]{title:"Title"}(Row 1, Row 2) - Data tables. First row is headers.
+* ![chart]{type:line, title:"Title"}(x(Axis):1,2 y1(Series):10,20) - Charts.
+
+---
+
+### SAMPLE PRELOADED CONTENT:
+
+![title](
+    # Strategic Asset Integration: The 2026 Resilience Framework
+    # Optimizing US growth, global exposure, and sovereign yield spreads.
+    ---
+    cover: [https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=1000]
+)
+
+![section]{name:logic}(
+    ## Strategic Rationale
+    This allocation is engineered to mitigate three primary risks identified in the 2026 macro environment:
+    * **Concentration Risk:** Reducing over-reliance on a high-valuation US technology sector by utilizing VTI for total market capture.
+    * **Yield Compression:** Capturing institutional-grade spreads through dollarized emerging market debt in Panama.
+    * **Capital Preservation:** Maintaining a liquid liquidity buffer via high-quality US Treasury instruments.
+)
+
+![section]{name:reading}(
+    ## Institutional Sources & Further Reading
+    * **Vanguard Portfolio Analytics:** *2026 Global Equity Outlook* – Deep dive into total market indexing and equity premiums.
+    * **J.P. Morgan Asset Management:** *Guide to the Markets (Q1 2026)* – Statistical analysis of Ex-US vs. US equity performance cycles.
+    * **Republic of Panama Ministry of Finance:** *Sovereign Debt Investor Relations* – Updated fiscal data and yields for USD-denominated Global Bonds.
+    * **Official Fund Factsheets (PDF):**
+    * Vanguard Total Stock Market ETF (VTI) - [https://fund-docs.vanguard.com/F0970.pdf]
+    * Vanguard Total International Stock ETF (VXUS) - [https://fund-docs.vanguard.com/F3369.pdf]
+    * Vanguard Developed Markets Index Fund (VEA) - [https://fund-docs.vanguard.com/F0936.pdf]
+)
+
+![section]{name:factsheets}(
+     ## Technical Documentation
+    For a detailed review of the underlying assets, refer to the official institutional factsheets:
+    
+    ![button]{where:[https://fund-docs.vanguard.com/F0970.pdf]}(VTI Factsheet PDF ↗)
+    
+    ![button]{where:[https://fund-docs.vanguard.com/F3369.pdf]}(VXUS Factsheet PDF ↗)
+    
+    ![button]{where:[https://fund-docs.vanguard.com/F0936.pdf]}(VEA Factsheet PDF ↗)
+)
+
+  ![form]{name:investor_profile, title:"2026 Investor Sentiment Survey", description:"Tell us how you are positioning for the current macro cycle."}(
+    ![question]{name:risk_tolerance, type:single, required:true}(
+      Which statement best describes your approach to market volatility?
+      * Capital Preservation
+      * Balanced
+      * Aggressive
+    )
+
+    ![question]{name:asset_interest, type:multiple, required:true}(
+      Which asset classes are you currently looking to increase exposure to?
+      * US Total Market (VTI)
+      * International Equities (VXUS/VEA)
+      * Panama Sovereign Bonds
+      * Liquid Cash / Treasuries
+    )
+  )
+
+![email](
+    @title
+    
+    Market volatility in 2026 suggests that a traditional domestic-heavy portfolio may be vulnerable to sectoral shifts. This report details a strategic shift toward a multi-asset framework that prioritizes global resilience and superior yield-to-risk ratios.
+    
+    @logic
+    
+    ![button]{where:@public, exclude:@public}(Access full analysis ↗)
+)
+
+![public](
+    @title
+    
+    @email
+    
+  @video{aspect:"landscape"}
+    
+    ## Equity Strategy: Total Market Capture
+    The foundation of a robust portfolio remains US equity, but the method of exposure is critical. We utilize **VTI (Vanguard Total Stock Market)** to capture the full spectrum of US corporate earnings, from small-cap innovation to large-cap stability.
+    
+    To hedge against US-specific volatility, we integrate **Ex-US ETFs** (VXUS or VEA). Historical data indicates that periods of high US concentration are often followed by cycles where international markets outperform as valuations equalize.
+    
+    ![chart]{type:line, title:"Projected Asset Growth (Index 100)"}(
+          x(Year):2024, 2025, 2026, 2027
+          y1(US Total Market - VTI):100, 118, 131, 142
+          y2(Intl Market - VXUS):100, 108, 128, 145
+    )
+
+        @form{name:investor_profile}
+    
+    ## Fixed Income: The Sovereign Barbell
+    A robust portfolio requires cash flow that exceeds inflation without introducing currency risk. We recommend a "Barbell Strategy" in fixed income:
+    
+    1. **US Treasuries:** Providing absolute liquidity and a "flight-to-safety" during market contractions.
+    2. **Panama Sovereign Bonds:** As a dollarized economy with an investment-grade rating, these bonds provide a yield premium over US Treasuries without exchange rate volatility.
+    
+    ![block]{cite:"Global Macro Strategy Group"}(
+        "Utilizing dollarized sovereign debt from stable issuers like Panama allows for institutional-level yield optimization without the volatility of foreign exchange markets."
+    )
+    
+    ![csv]{title:"2026 Strategic Allocation Model"}(
+        Asset Class, Instrument, Target Weight, Primary Role
+        US Total Equity, VTI, 45%, Core Growth Engine
+        International Equity, VXUS / VEA, 20%, Global Diversification
+        Panama Sovereigns, Panama 2036s+, 15%, Enhanced USD Yield
+        US Treasuries, 10-Year / 20-Year, 20%, Capital Preservation
+    )
+    
+    @factsheets
+
+    @comment
+)
+
+![video]{aspect:"square,landscape", fps:24, title_font:120, content_font:42, transition:0.25}(
+    [#1]{duration:2.5}
+    # The 2026 Strategy
+    Diversify beyond domestic borders to build a resilient, global portfolio through VTI and Ex-US exposure.
+    
+    [#2]{duration:2.5}
+    ![chart]{type:line, title:"Sovereign Spread Performance"}(
+          x(Condition):Low Vol, Med Vol, High Vol
+          y1(US Treasury):4.4, 4.3, 4.1
+          y2(Panama Bond):6.2, 6.3, 6.5
+    )
+    # Income Optimization
+    Sovereign bonds from Panama offer superior yield during all market phases while remaining entirely in USD.
+    
+    [#3]{duration:2.5}
+    # Strategic Action
+    Rebalance your holdings today to align with the 2026 Robust Framework for growth and safety.
+)
+
+
+![title]( ... ) - Reusable title section. Define once outside and reuse with @title in ![email](...) or ![public](...). Inside, use # Headline, ## Subtitle, --- for hero divider, and cover: [url] for cover image.
+![email]( ... ) - Content block for email (main image, description, sections).
+![public]( ... ) - Public body block of the newsletter.
+![video]{aspect:"square,landscape", fps:24, title_font:120, content_font:42, transition:0.25}( ... ) - Root block for video with render settings. Allowed params: aspect=square|portrait|landscape as a comma-separated list, fps=integer, title_font=integer, content_font=integer, transition=decimal seconds. Defined outside of ![email](...) and ![public](...). Pages defined with [#1]{duration:2.5}, [#2]{duration:2.5}, etc. where duration > 0.
+Inside each video page, use a single ![chart]{...}(...) or ![csv]{...}(...) to render as a centered slide, with optional text above/below as caption.
+![section]{name:mysection}( ... ) - Reusable named section, defined outside of ![email](...) and ![public](...).
+![form]{name:investor_profile, title:"Survey title"}( ... ) - Reusable survey form, defined outside of ![email](...) and ![public](...). Optional params: description and submit_label.
+![question]{name:risk_tolerance, type:single, required:true}( ... ) - Survey question block nested inside ![form](...). First line is the prompt; following list items are options. Allowed type values: single and multiple.
+@email - Inserts the full content of ![email](...) into ![public](...).
+@title - Inserts the full content of ![title](...) into ![email](...) or ![public](...).
+@video or @video{aspect:"landscape"} - Inserts the current article static video centered inside ![email](...) or ![public](...). The aspect form requests one specific variant: square, portrait, or landscape.
+@mysection - Inserts the content of a reusable section into ![email](...) or ![public](...).
+@form{name:investor_profile} - Inserts a reusable survey exactly where it is referenced in public output.
+@comment - Inserts the public comments module exactly where it is referenced. It renders only on the public article.
+![button]{where:@public}(Read article ↗) - Button command. Allowed where values: @public/public, https://..., www.domain.com, domain.com, /relative-path, mailto:..., tel:....
+![block]{cite:Author}(Text) - Styled pull quote.
+![csv]{title:"Performance (%)"}( ... ) - Table command. Allowed params: title=string, transpose=true|1|yes (otherwise false), exclude=@public|@email|@all.
+![chart]{type:line, title:"Performance (%)"}( ... ) - Chart command. Allowed params: type=line|scatter (others fallback to line), title=string, exclude=@public|@email|@all. Body format: x(label):... and y1(label):..., y2(label):....
+{exclude:@public} or {exclude:@email} works on any special command to exclude it from the specified target.
+![button]{where:@public, exclude:@public}(Read article ↗) - Example: shown in email but not when @email is inserted into public.
+Everything else uses standard markdown: ##, lists, links, bold, etc.
+
+
+![title](
+    # Strategic Asset Integration: The 2026 Resilience Framework
+    # Optimizing US growth, global exposure, and sovereign yield spreads.
+    ---
+    cover: [https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=1000]
+)
+
+![section]{name:logic}(
+    ## Strategic Rationale
+    This allocation is engineered to mitigate three primary risks identified in the 2026 macro environment:
+    * **Concentration Risk:** Reducing over-reliance on a high-valuation US technology sector by utilizing VTI for total market capture.
+    * **Yield Compression:** Capturing institutional-grade spreads through dollarized emerging market debt in Panama.
+    * **Capital Preservation:** Maintaining a liquid liquidity buffer via high-quality US Treasury instruments.
+)
+
+![section]{name:reading}(
+    ## Institutional Sources & Further Reading
+    * **Vanguard Portfolio Analytics:** *2026 Global Equity Outlook* – Deep dive into total market indexing and equity premiums.
+    * **J.P. Morgan Asset Management:** *Guide to the Markets (Q1 2026)* – Statistical analysis of Ex-US vs. US equity performance cycles.
+    * **Republic of Panama Ministry of Finance:** *Sovereign Debt Investor Relations* – Updated fiscal data and yields for USD-denominated Global Bonds.
+    * **Official Fund Factsheets (PDF):**
+    * Vanguard Total Stock Market ETF (VTI) - [https://fund-docs.vanguard.com/F0970.pdf]
+    * Vanguard Total International Stock ETF (VXUS) - [https://fund-docs.vanguard.com/F3369.pdf]
+    * Vanguard Developed Markets Index Fund (VEA) - [https://fund-docs.vanguard.com/F0936.pdf]
+)
+
+![section]{name:factsheets}(
+     ## Technical Documentation
+    For a detailed review of the underlying assets, refer to the official institutional factsheets:
+    
+    ![button]{where:[https://fund-docs.vanguard.com/F0970.pdf]}(VTI Factsheet PDF ↗)
+    
+    ![button]{where:[https://fund-docs.vanguard.com/F3369.pdf]}(VXUS Factsheet PDF ↗)
+    
+    ![button]{where:[https://fund-docs.vanguard.com/F0936.pdf]}(VEA Factsheet PDF ↗)
+)
+
+![form]{name:investor_profile, title:"2026 Investor Sentiment Survey", description:"Tell us how you are positioning for the current macro cycle."}(
+    ![question]{name:risk_tolerance, type:single, required:true}(
+        Which statement best describes your approach to market volatility?
+        * Capital Preservation
+        * Balanced
+        * Aggressive
+    )
+    
+    ![question]{name:asset_interest, type:multiple, required:true}(
+        Which asset classes are you currently looking to increase exposure to?
+        * US Total Market (VTI)
+        * International Equities (VXUS/VEA)
+        * Panama Sovereign Bonds
+        * Liquid Cash / Treasuries
+    )
+)
+
+![email](
+    @title
+    
+    Market volatility in 2026 suggests that a traditional domestic-heavy portfolio may be vulnerable to sectoral shifts. This report details a strategic shift toward a multi-asset framework that prioritizes global resilience and superior yield-to-risk ratios.
+    
+    @logic
+    
+    ![button]{where:@public, exclude:@public}(Access full analysis ↗)
+)
+
+![public](
+    @title
+    
+    @email
+    
+    @video{aspect:"landscape"}
+    
+    ## Equity Strategy: Total Market Capture
+    The foundation of a robust portfolio remains US equity, but the method of exposure is critical. We utilize **VTI (Vanguard Total Stock Market)** to capture the full spectrum of US corporate earnings, from small-cap innovation to large-cap stability.
+    
+    To hedge against US-specific volatility, we integrate **Ex-US ETFs** (VXUS or VEA). Historical data indicates that periods of high US concentration are often followed by cycles where international markets outperform as valuations equalize.
+    
+    ![chart]{type:line, title:"Projected Asset Growth (Index 100)"}(
+          x(Year):2024, 2025, 2026, 2027
+          y1(US Total Market - VTI):100, 118, 131, 142
+          y2(Intl Market - VXUS):100, 108, 128, 145
+    )
+    
+    @form{name:investor_profile}
+    
+    ## Fixed Income: The Sovereign Barbell
+    A robust portfolio requires cash flow that exceeds inflation without introducing currency risk. We recommend a "Barbell Strategy" in fixed income:
+    
+    1. **US Treasuries:** Providing absolute liquidity and a "flight-to-safety" during market contractions.
+    2. **Panama Sovereign Bonds:** As a dollarized economy with an investment-grade rating, these bonds provide a yield premium over US Treasuries without exchange rate volatility.
+    
+    ![block]{cite:"Global Macro Strategy Group"}(
+        "Utilizing dollarized sovereign debt from stable issuers like Panama allows for institutional-level yield optimization without the volatility of foreign exchange markets."
+    )
+    
+    ![csv]{title:"2026 Strategic Allocation Model"}(
+        Asset Class, Instrument, Target Weight, Primary Role
+        US Total Equity, VTI, 45%, Core Growth Engine
+        International Equity, VXUS / VEA, 20%, Global Diversification
+        Panama Sovereigns, Panama 2036s+, 15%, Enhanced USD Yield
+        US Treasuries, 10-Year / 20-Year, 20%, Capital Preservation
+    )
+    
+    @factsheets
+    
+    @comment
+)
+
+![video]{aspect:"square,landscape", fps:24, title_font:120, content_font:42, transition:0.25}(
+    [#1]{duration:2.5}
+    # The 2026 Strategy
+    Diversify beyond domestic borders to build a resilient, global portfolio through VTI and Ex-US exposure.
+    
+    [#2]{duration:2.5}
+    ![chart]{type:line, title:"Sovereign Spread Performance"}(
+          x(Condition):Low Vol, Med Vol, High Vol
+          y1(US Treasury):4.4, 4.3, 4.1
+          y2(Panama Bond):6.2, 6.3, 6.5
+    )
+    # Income Optimization
+    Sovereign bonds from Panama offer superior yield during all market phases while remaining entirely in USD.
+    
+    [#3]{duration:2.5}
+    # Strategic Action
+    Rebalance your holdings today to align with the 2026 Robust Framework for growth and safety.
+)
