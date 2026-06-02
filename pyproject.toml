@@ -1,0 +1,21 @@
+[project]
+name = "sortino-notebooks"
+version = "0.1.0"
+description = "Notebook environment and shared utilities for the Sortino Capital competition workspace"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "ipykernel>=6.29.5",
+    "matplotlib>=3.9.0",
+    "numpy>=2.0.0",
+    "pandas>=2.2.0",
+    "vectorbt>=0.26.0",
+    "yfinance>=0.2.54",
+]
+
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+package = false

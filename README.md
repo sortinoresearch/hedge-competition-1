@@ -8,6 +8,16 @@ This competition challenges quantitative engineers to develop an institutional-g
 
 You can join our newsletter at https://sortino.capital/
 
+### Quick Setup
+This workspace now uses `uv` for an isolated Python environment.
+
+```bash
+uv sync
+uv run jupyter lab
+```
+
+If you want to run notebook-backed scripts directly, use `uv run python ...` so imports resolve against the same environment that includes `vectorbt`.
+
 ---
 
 ### Competition Format & Eligibility
